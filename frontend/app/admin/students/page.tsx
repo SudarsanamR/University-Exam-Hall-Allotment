@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { FadeIn, GlowCard } from "../../components/Animations";
 
 interface Student {
     id: number;
@@ -48,130 +49,139 @@ export default function StudentsPage() {
     return (
         <div>
             {/* Header */}
-            <div className="mb-8">
-                <h1 className="text-3xl font-bold text-[var(--text-primary)] mb-2">Students</h1>
-                <p className="text-[var(--text-muted)]">View and filter parsed student registrations</p>
-            </div>
+            <FadeIn>
+                <div className="mb-10">
+                    <h1 className="text-4xl font-bold text-[var(--text-primary)] mb-2 tracking-tight">Students</h1>
+                    <p className="text-[var(--text-muted)]">View and filter parsed student registrations</p>
+                </div>
+            </FadeIn>
 
             {/* Filter Bar */}
-            <form onSubmit={handleFilter} className="glass-card p-4 mb-6">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
-                    <div>
-                        <label className="label">Search (Reg No / Name)</label>
-                        <input
-                            type="text"
-                            value={search}
-                            onChange={(e) => setSearch(e.target.value)}
-                            placeholder="e.g. 731125104003"
-                            className="input"
-                        />
-                    </div>
-                    <div>
-                        <label className="label">Department</label>
-                        <input
-                            type="text"
-                            value={deptFilter}
-                            onChange={(e) => setDeptFilter(e.target.value)}
-                            placeholder="e.g. Computer Science"
-                            className="input"
-                        />
-                    </div>
-                    <div>
-                        <label className="label">Subject Code</label>
-                        <input
-                            type="text"
-                            value={subjectFilter}
-                            onChange={(e) => setSubjectFilter(e.target.value)}
-                            placeholder="e.g. CS25C01"
-                            className="input"
-                        />
-                    </div>
-                    <button type="submit" className="btn btn-primary h-[46px]">
-                        <span>🔍</span>
-                        Apply Filters
-                    </button>
-                </div>
-            </form>
+            <FadeIn delay={0.1}>
+                <GlowCard className="glass-card p-6 mb-8">
+                    <form onSubmit={handleFilter} className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+                        <div>
+                            <label className="label mb-2">Search (Reg No / Name)</label>
+                            <input
+                                type="text"
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                                placeholder="e.g. 731125104003"
+                                className="input"
+                            />
+                        </div>
+                        <div>
+                            <label className="label mb-2">Department</label>
+                            <input
+                                type="text"
+                                value={deptFilter}
+                                onChange={(e) => setDeptFilter(e.target.value)}
+                                placeholder="e.g. Computer Science"
+                                className="input"
+                            />
+                        </div>
+                        <div>
+                            <label className="label mb-2">Subject Code</label>
+                            <input
+                                type="text"
+                                value={subjectFilter}
+                                onChange={(e) => setSubjectFilter(e.target.value)}
+                                placeholder="e.g. CS25C01"
+                                className="input"
+                            />
+                        </div>
+                        <button type="submit" className="btn btn-primary h-[46px]">
+                            <span>🔍</span>
+                            Apply Filters
+                        </button>
+                    </form>
+                </GlowCard>
+            </FadeIn>
 
             {/* Table */}
-            <div className="table-container">
-                <table className="table">
-                    <thead>
-                        <tr>
-                            <th>Reg No</th>
-                            <th>Name</th>
-                            <th>Department</th>
-                            <th>Subjects</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {students.map((s) => (
-                            <tr key={s.id}>
-                                <td className="font-mono text-[var(--accent-primary)]">{s.reg_no}</td>
-                                <td className="font-medium text-[var(--text-primary)]">{s.name}</td>
-                                <td>{s.department}</td>
-                                <td>
-                                    <div className="flex flex-wrap gap-1 max-w-md">
-                                        {s.subjects_registered.slice(0, 5).map((sub) => (
-                                            <span key={sub} className="badge badge-secondary text-xs">{sub}</span>
-                                        ))}
-                                        {s.subjects_registered.length > 5 && (
-                                            <span className="badge badge-primary text-xs">+{s.subjects_registered.length - 5}</span>
-                                        )}
-                                    </div>
-                                </td>
-                            </tr>
-                        ))}
-                        {!loading && students.length === 0 && (
+            <FadeIn delay={0.2}>
+                <div className="table-container">
+                    <table className="table">
+                        <thead>
                             <tr>
-                                <td colSpan={4} className="text-center py-12 text-[var(--text-muted)]">
-                                    <div className="text-4xl mb-3">👥</div>
-                                    No students found. Try adjusting filters or upload a Student List PDF first.
-                                </td>
+                                <th>Reg No</th>
+                                <th>Name</th>
+                                <th>Department</th>
+                                <th>Subjects</th>
                             </tr>
-                        )}
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+                        <tbody>
+                            {students.map((s) => (
+                                <tr key={s.id}>
+                                    <td className="font-mono text-[var(--accent-primary)]">{s.reg_no}</td>
+                                    <td className="font-medium text-[var(--text-primary)]">{s.name}</td>
+                                    <td>{s.department}</td>
+                                    <td>
+                                        <div className="flex flex-wrap gap-1.5 max-w-md">
+                                            {s.subjects_registered.slice(0, 5).map((sub) => (
+                                                <span key={sub} className="badge badge-secondary text-xs">{sub}</span>
+                                            ))}
+                                            {s.subjects_registered.length > 5 && (
+                                                <span className="badge badge-primary text-xs">+{s.subjects_registered.length - 5}</span>
+                                            )}
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                            {!loading && students.length === 0 && (
+                                <tr>
+                                    <td colSpan={4} className="text-center py-16 text-[var(--text-muted)]">
+                                        <div className="text-5xl mb-4">👥</div>
+                                        <div className="font-medium mb-2">No students found</div>
+                                        <div className="text-sm">Try adjusting filters or upload a Student List PDF first.</div>
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
+            </FadeIn>
 
             {/* Pagination */}
-            <div className="flex justify-between items-center mt-6">
-                <div className="flex items-center gap-4 text-sm text-[var(--text-muted)]">
-                    <span>
-                        Showing {students.length > 0 ? page * pageSize + 1 : 0} - {page * pageSize + students.length}
-                    </span>
-                    <span className="text-[var(--text-muted)]">|</span>
-                    <div className="flex items-center gap-2">
-                        <span>Per page:</span>
-                        <select
-                            value={pageSize}
-                            onChange={(e) => { setPageSize(Number(e.target.value)); setPage(0); }}
-                            className="select w-20 py-2 px-3 text-sm"
+            <FadeIn delay={0.3}>
+                <div className="flex justify-between items-center mt-6">
+                    <div className="flex items-center gap-4 text-sm text-[var(--text-muted)]">
+                        <span>
+                            Showing {students.length > 0 ? page * pageSize + 1 : 0} - {page * pageSize + students.length}
+                        </span>
+                        <span>|</span>
+                        <div className="flex items-center gap-2">
+                            <span>Per page:</span>
+                            <select
+                                value={pageSize}
+                                onChange={(e) => { setPageSize(Number(e.target.value)); setPage(0); }}
+                                className="select w-20 py-2 px-3 text-sm"
+                            >
+                                <option value={25}>25</option>
+                                <option value={50}>50</option>
+                                <option value={100}>100</option>
+                                <option value={200}>200</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div className="pagination">
+                        <button
+                            onClick={() => setPage(Math.max(0, page - 1))}
+                            disabled={page === 0}
+                            className="page-btn"
                         >
-                            <option value={25}>25</option>
-                            <option value={50}>50</option>
-                            <option value={100}>100</option>
-                            <option value={200}>200</option>
-                        </select>
+                            ← Previous
+                        </button>
+                        <button
+                            onClick={() => setPage(page + 1)}
+                            disabled={students.length < pageSize}
+                            className="page-btn"
+                        >
+                            Next →
+                        </button>
                     </div>
                 </div>
-                <div className="pagination">
-                    <button
-                        onClick={() => setPage(Math.max(0, page - 1))}
-                        disabled={page === 0}
-                        className="page-btn"
-                    >
-                        ← Previous
-                    </button>
-                    <button
-                        onClick={() => setPage(page + 1)}
-                        disabled={students.length < pageSize}
-                        className="page-btn"
-                    >
-                        Next →
-                    </button>
-                </div>
-            </div>
+            </FadeIn>
         </div>
     );
 }
